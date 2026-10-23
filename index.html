@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#173b57">
+<title>EasyBill — GST Invoice Maker</title>
+<style>
+.monetization-panel{max-width:1100px;margin:16px auto 0;padding:0 12px}.monetization-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px}.monetization-card h2{margin-bottom:6px}.monetization-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.ad-slot{min-height:0}.premium-label{display:inline-block;background:#edf5f8;color:#173b57;border-radius:999px;padding:3px 8px;font-size:11px;font-weight:700}
+
+:root{--navy:#173b57;--blue:#246b8e;--pale:#edf5f8;--ink:#1d2935;--muted:#667684;--line:#d9e2e8;--white:#fff;--green:#177245;--red:#a62d2d}
+*{box-sizing:border-box}body{margin:0;background:#f3f6f8;color:var(--ink);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+header{background:linear-gradient(120deg,#173b57,#246b8e);color:white;padding:22px 16px}
+.head{max-width:1100px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+h1{font-size:25px;margin:0}.tagline{margin:3px 0 0;color:#d9eaf2;font-size:13px}
+.wrap{max-width:1100px;margin:18px auto;padding:0 12px 40px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.panel{background:white;border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 3px 14px #173b5709;min-width:0}
+h2{font-size:17px;margin:0 0 12px;color:var(--navy)}h3{font-size:14px;margin:16px 0 8px;color:var(--navy)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.full{grid-column:1/-1}
+label{display:block;font-size:12px;font-weight:700;color:#526270;margin:0 0 4px}
+input,select,textarea{width:100%;border:1px solid #cbd7df;border-radius:8px;padding:10px;font:inherit;background:#fff;color:var(--ink);min-width:0}
+input:focus,select:focus,textarea:focus{outline:2px solid #9ccde0;border-color:var(--blue)}
+button,.filebtn{border:0;border-radius:9px;background:var(--navy);color:white;padding:10px 13px;font-weight:700;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+button.secondary{background:#e9f1f5;color:var(--navy)}button.green{background:var(--green)}button.danger{background:#fff0f0;color:var(--red);border:1px solid #f0cccc}
+button:disabled{opacity:.45;cursor:not-allowed}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.small{font-size:12px;color:var(--muted)}.notice{background:#fff8e5;border:1px solid #f0dfa8;padding:10px;border-radius:8px;font-size:12px;color:#67501a;margin:10px 0}
+.logo-row{display:flex;align-items:center;gap:12px}.logo-preview{width:68px;height:68px;border:1px dashed #b7c7d1;border-radius:10px;display:flex;align-items:center;justify-content:center;overflow:hidden;color:#81919b;font-size:11px;text-align:center;flex-shrink:0}.logo-preview img{width:100%;height:100%;object-fit:contain}
+.items-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:12px;min-width:520px}th{background:var(--pale);color:var(--navy);text-align:left;padding:8px}td{padding:6px;border-bottom:1px solid #e7edf0}td input{padding:8px;font-size:12px}td .remove{padding:6px 9px}
+.preview-panel{padding:0;overflow:hidden}.preview-toolbar{padding:14px 16px;background:#f9fbfc;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+#invoicePreview{padding:24px;background:white;min-height:500px}.inv-top{display:flex;justify-content:space-between;gap:18px;border-bottom:3px solid var(--navy);padding-bottom:18px}.inv-brand{display:flex;gap:12px;align-items:flex-start;min-width:0}.inv-logo{width:76px;height:76px;object-fit:contain}.inv-name{font-size:23px;font-weight:800;color:var(--navy);overflow-wrap:anywhere}.inv-meta{text-align:right;font-size:12px;color:#4f5e68;min-width:120px}.inv-meta strong{display:block;font-size:20px;color:var(--navy)}
+.inv-parties{display:grid;grid-template-columns:1fr 1fr;gap:18px;padding:18px 0}.inv-label{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#758590;font-weight:800}.inv-parties strong{display:block;font-size:14px;margin:3px 0}.inv-parties p{margin:2px 0;font-size:12px;white-space:pre-line;overflow-wrap:anywhere}
+#previewTable{width:100%;min-width:0;font-size:11px}#previewTable th{padding:9px 6px;background:var(--navy);color:white}#previewTable td{padding:9px 6px;font-size:11px;overflow-wrap:anywhere}
+.inv-bottom{display:grid;grid-template-columns:1fr minmax(150px,45%);gap:18px;padding-top:18px}.inv-notes{font-size:11px;color:#5f6e78;white-space:pre-line}.totals{font-size:12px}.total-line{display:flex;justify-content:space-between;gap:12px;padding:5px 0;border-bottom:1px solid #e8edf0}.total-line.grand{font-size:16px;font-weight:800;color:var(--navy);border-bottom:0;border-top:2px solid var(--navy);margin-top:5px;padding-top:10px}.tax-summary{margin-top:14px;font-size:11px;color:#596a75}.tax-summary table{min-width:0;font-size:10px}.tax-summary th,.tax-summary td{padding:5px}.sign{margin-top:35px;text-align:right;font-size:11px;color:#667684}.sign div{display:inline-block;border-top:1px solid #9eabb4;padding-top:7px;min-width:160px;text-align:center}
+.history-list{display:flex;flex-direction:column;gap:8px}.history-item{border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;gap:8px;align-items:center;justify-content:space-between}.history-info{min-width:0}.history-info strong{display:block;overflow-wrap:anywhere}.history-info span{font-size:12px;color:var(--muted)}.history-actions{display:flex;gap:5px;flex-shrink:0}.history-actions button{padding:7px;font-size:11px}
+footer{text-align:center;padding:0 16px 24px;color:#72818c;font-size:11px}
+@media(max-width:800px){.wrap{grid-template-columns:1fr}.panel{padding:13px}#invoicePreview{padding:16px}.inv-name{font-size:20px}.inv-logo{width:58px;height:58px}.inv-top{gap:8px}.inv-meta strong{font-size:16px}}
+@media(max-width:390px){.grid{grid-template-columns:1fr}.full{grid-column:auto}.inv-parties{gap:10px}.inv-bottom{grid-template-columns:1fr}.inv-meta{min-width:95px}.inv-name{font-size:18px}}
+@media print{
+ @page{size:A4;margin:12mm}
+ body{background:#fff!important;color:#111;font-size:11px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ header,.form-panel,.history-panel,.preview-toolbar,footer,.no-print{display:none!important}
+ .wrap{display:block;margin:0;padding:0;max-width:none}.preview-panel{border:0;border-radius:0;box-shadow:none;overflow:visible}
+ #invoicePreview{padding:0;min-height:0}.inv-top{break-inside:avoid}.inv-parties{break-inside:avoid}
+ #previewTable{font-size:10px}#previewTable th{background:#173b57!important;color:white!important}
+ #previewTable tr{break-inside:avoid}.inv-bottom{break-inside:avoid}.sign{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<header><div class="head"><div><h1>EasyBill</h1><p class="tagline">Simple GST invoices · works offline · free to use</p></div><div class="small" style="color:#e3f0f6">Your invoices stay on this device</div></div></header>
+<section class="monetization-panel no-print" aria-label="EasyBill plans"><div class="monetization-card"><div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap"><h2>EasyBill Free &amp; Premium</h2><span class="premium-label">Premium coming soon</span></div><p class="small" style="margin:0">Free: create, save, export and print GST invoices. Premium is planned for multiple business profiles, branded invoice themes and advanced reports. Purchases are not enabled yet; no payment will be taken.</p><div class="monetization-actions"><button type="button" class="secondary" id="premiumInfo">Explore Premium</button><span id="premiumStatus" class="small" role="status" style="align-self:center">Premium checkout will be enabled after Google Play Billing is configured.</span></div></div><div id="easybillAdSlot" class="ad-slot" aria-label="Advertisement"></div></section>
+<main class="wrap">
+<section class="panel form-panel">
+<h2>1. Business details</h2>
+<div class="logo-row">
+  <div class="logo-preview" id="logoPreview">Your logo</div>
+  <div style="flex:1"><label for="logoInput">Add business logo (optional)</label><input id="logoInput" type="file" accept="image/*"><div class="small">Choose a small JPG or PNG. Stored on this device.</div><button type="button" class="secondary" id="removeLogo" style="margin-top:6px">Remove logo</button></div>
+</div>
+<div class="grid" style="margin-top:12px">
+<div class="full"><label for="businessName">Business / seller name *</label><input id="businessName" placeholder="e.g. Sharma Traders"></div>
+<div class="full"><label for="businessAddress">Business address</label><textarea id="businessAddress" rows="2" placeholder="Street, city, state, PIN"></textarea></div>
+<div><label for="businessGstin">GSTIN (optional)</label><input id="businessGstin" placeholder="15-character GSTIN" maxlength="15" autocapitalize="characters"></div>
+<div><label for="businessPhone">Phone / email</label><input id="businessPhone" placeholder="Phone or email"></div>
+</div>
+<h3>2. Invoice details</h3>
+<div class="grid">
+<div><label for="invoiceNumber">Invoice number</label><input id="invoiceNumber" readonly></div>
+<div><label for="invoiceDate">Invoice date *</label><input id="invoiceDate" type="date"></div>
+<div><label for="placeOfSupply">Place of supply (state)</label><input id="placeOfSupply" placeholder="e.g. Karnataka"></div>
+<div><label for="supplyType">Supply type</label><select id="supplyType"><option value="intra">Within same state (CGST + SGST)</option><option value="inter">Other state (IGST)</option><option value="none">No GST / exempt</option></select></div>
+<div class="full"><label for="customerName">Customer / buyer name *</label><input id="customerName" placeholder="Customer name"></div>
+<div class="full"><label for="customerAddress">Customer address</label><textarea id="customerAddress" rows="2" placeholder="Customer address"></textarea></div>
+<div><label for="customerGstin">Customer GSTIN (optional)</label><input id="customerGstin" maxlength="15" placeholder="GSTIN"></div>
+<div><label for="currency">Currency</label><select id="currency"><option value="INR">₹ INR (Indian Rupee)</option></select></div>
+</div>
+<h3>3. Items and GST</h3>
+<div class="items-wrap"><table id="itemsEditor"><thead><tr><th style="width:34%">Item / service</th><th>Qty</th><th>Price (₹)</th><th>GST %</th><th></th></tr></thead><tbody id="itemRows"></tbody></table></div>
+<div class="actions"><button type="button" class="secondary" id="addItem">＋ Add item</button></div>
+<div class="grid" style="margin-top:12px">
+<div><label for="defaultGst">Default GST rate</label><select id="defaultGst"><option value="0">0% / exempt</option><option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option><option value="custom">Custom rate…</option></select></div>
+<div><label for="customGst">Custom GST rate (%)</label><input id="customGst" type="number" min="0" max="100" step="0.01" value="18"></div>
+<div class="full"><label for="notes">Notes / payment terms</label><textarea id="notes" rows="2" placeholder="Thank you for your business."></textarea></div>
+</div>
+<div class="notice">GST note: choose <b>Within same state</b> for CGST + SGST, or <b>Other state</b> for IGST. Verify the correct GST rate, place of supply, and tax treatment for your business before issuing an invoice.</div>
+<div class="actions">
+<button type="button" class="green" id="saveInvoice">Save invoice</button>
+<button type="button" id="newInvoice">＋ New invoice</button>
+<button type="button" class="secondary" id="printInvoice">Print / Save PDF</button>
+<button type="button" class="secondary" id="exportBackup">Export backup</button>
+<button type="button" class="secondary" id="importBackupBtn">Import backup</button>
+<input id="importBackup" type="file" accept="application/json,.json" hidden>
+</div>
+<p class="small" id="saveStatus" role="status">Invoices are saved in this browser on this device.</p>
+</section>
+<section class="panel preview-panel">
+<div class="preview-toolbar"><div><h2 style="margin:0">Invoice preview</h2><div class="small">Print or save as PDF from your Android browser</div></div><button type="button" class="secondary" id="previewPrint">Print / Save PDF</button></div>
+<div id="invoicePreview">
+<div class="inv-top"><div class="inv-brand"><img id="previewLogo" class="inv-logo" alt="Business logo" hidden><div><div class="inv-label">Tax invoice from</div><div class="inv-name" id="pBusiness">Your Business</div><p id="pBusinessAddress" style="font-size:11px;white-space:pre-line;margin:5px 0"></p><p id="pBusinessContact" style="font-size:11px;margin:3px 0"></p><p id="pBusinessGstin" style="font-size:11px;margin:3px 0"></p></div></div><div class="inv-meta"><strong>TAX INVOICE</strong><div>Invoice no. <b id="pNumber"></b></div><div>Date: <span id="pDate"></span></div><div id="pSupply"></div></div></div>
+<div class="inv-parties"><div><div class="inv-label">Bill to</div><strong id="pCustomer">Customer name</strong><p id="pCustomerAddress"></p><p id="pCustomerGstin"></p></div><div><div class="inv-label">Supply details</div><p id="pPlaceSupply"></p><p id="pTaxType"></p></div></div>
+<table id="previewTable"><thead><tr><th>#</th><th>Description</th><th style="text-align:right">Qty</th><th style="text-align:right">Rate</th><th style="text-align:right">Taxable value</th><th style="text-align:right">GST</th><th style="text-align:right">Amount</th></tr></thead><tbody id="previewRows"></tbody></table>
+<div class="inv-bottom"><div class="inv-notes"><div class="inv-label">Notes</div><div id="pNotes">Thank you for your business.</div><div class="tax-summary" id="taxSummary"></div></div><div class="totals" id="totals"></div></div>
+<div class="sign"><div>Authorised signatory</div></div>
+</div>
+</section>
+<section class="panel history-panel" style="grid-column:1/-1">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><div><h2 style="margin-bottom:3px">Invoice history</h2><div class="small">Saved invoices are available on this device/browser.</div></div><div class="actions" style="margin:0"><button type="button" class="secondary" id="exportHistory">Export all invoices</button><button type="button" class="danger" id="clearHistory">Clear history</button></div></div>
+<div class="history-list" id="historyList" style="margin-top:12px"></div>
+<p class="small">Storage tip: browser data can be removed by Android cleanup tools or if you clear site data. Export a backup regularly and keep it somewhere safe. Logo and invoice records are not uploaded to a server.</p>
+</section>
+</main>
+<footer>EasyBill is a free offline invoice helper. It is not tax or legal advice. Keep your own backup of saved invoices. Ads may be shown in the free version; invoice data stays on this device.</footer>
+<script>
+(function(){
+'use strict';
+const $=id=>document.getElementById(id);
+const STORAGE_KEY='easybill.invoices.v2';
+const SETTINGS_KEY='easybill.settings.v2';
+let logoData='', currentInvoiceId=null, items=[];
+const today=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`};
+const money=n=>new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:2}).format(Number(n)||0);
+const num=v=>Math.max(0,Number(v)||0);
+const safe=(v)=>String(v??'').trim();
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function getHistory(){try{const x=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');return Array.isArray(x)?x:[]}catch(e){return []}}
+function putHistory(list){localStorage.setItem(STORAGE_KEY,JSON.stringify(list))}
+function getSettings(){try{return JSON.parse(localStorage.getItem(SETTINGS_KEY)||'{}')}catch(e){return {}}}
+function persistSettings(){const s={businessName:$('businessName').value,businessAddress:$('businessAddress').value,businessGstin:$('businessGstin').value,businessPhone:$('businessPhone').value,logoData};try{localStorage.setItem(SETTINGS_KEY,JSON.stringify(s));$('saveStatus').textContent='Business details saved on this device.'}catch(e){$('saveStatus').textContent='Storage is full. Use a smaller logo or export a backup.'}}
+function makeInvoiceNumber(){const year=new Date().getFullYear();const history=getHistory();let max=0;for(const inv of history){const m=String(inv.number||'').match(new RegExp('^EB-'+year+'-(\\d+)$'));if(m)max=Math.max(max,Number(m[1]))}return `EB-${year}-${String(max+1).padStart(4,'0')}`}
+function setLogo(data){logoData=data||'';$('logoPreview').innerHTML=logoData?`<img alt="Logo preview" src="${logoData}">`:'Your logo';$('previewLogo').src=logoData;$('previewLogo').hidden=!logoData;persistSettings();renderPreview()}
+function addItemRow(item={name:'',qty:1,price:0,gst:null}){
+ const id=Math.random().toString(36).slice(2);items.push({id,name:item.name||'',qty:item.qty??1,price:item.price??0,gst:item.gst??getDefaultRate()});
+ renderItemEditor();
+}
+function getDefaultRate(){if($('defaultGst').value==='custom')return num($('customGst').value);return num($('defaultGst').value)}
+function renderItemEditor(){const body=$('itemRows');body.innerHTML='';items.forEach((it,i)=>{const tr=document.createElement('tr');tr.innerHTML=`<td><input aria-label="Item name" data-id="${it.id}" data-field="name" placeholder="Item or service" value="${esc(it.name)}"></td><td><input aria-label="Quantity" data-id="${it.id}" data-field="qty" type="number" min="0" step="0.01" value="${it.qty}"></td><td><input aria-label="Price" data-id="${it.id}" data-field="price" type="number" min="0" step="0.01" value="${it.price}"></td><td><input aria-label="GST percent" data-id="${it.id}" data-field="gst" type="number" min="0" max="100" step="0.01" value="${it.gst}"></td><td><button type="button" class="danger remove" data-remove="${it.id}" aria-label="Remove item">×</button></td>`;body.appendChild(tr)});renderPreview()}
+function calculations(){let subtotal=0,cgst=0,sgst=0,igst=0,total=0;const type=$('supplyType').value;const rows=items.map(it=>{const qty=num(it.qty),price=num(it.price),rate=num(it.gst),taxable=qty*price,tax=type==='none'?0:taxable*rate/100;subtotal+=taxable;if(type==='intra'){cgst+=tax/2;sgst+=tax/2}else if(type==='inter')igst+=tax;const amount=taxable+tax;total+=amount;return {...it,qty,price,rate,taxable,tax,amount}});return {rows,subtotal,cgst,sgst,igst,tax:cgst+sgst+igst,total}}
+function renderPreview(){const c=calculations();$('pBusiness').textContent=safe($('businessName').value)||'Your Business';$('pBusinessAddress').textContent=safe($('businessAddress').value);$('pBusinessContact').textContent=safe($('businessPhone').value);$('pBusinessGstin').textContent=$('businessGstin').value.trim()?'GSTIN: '+$('businessGstin').value.trim().toUpperCase():'';$('pNumber').textContent=$('invoiceNumber').value;$('pDate').textContent=$('invoiceDate').value||today();$('pSupply').textContent=$('supplyType').value==='none'?'No GST / exempt':$('supplyType').value==='intra'?'Intra-state supply':'Inter-state supply';$('pCustomer').textContent=safe($('customerName').value)||'Customer name';$('pCustomerAddress').textContent=safe($('customerAddress').value);$('pCustomerGstin').textContent=$('customerGstin').value.trim()?'GSTIN: '+$('customerGstin').value.trim().toUpperCase():'';$('pPlaceSupply').textContent=$('placeOfSupply').value.trim()?'Place of supply: '+$('placeOfSupply').value.trim():'';$('pTaxType').textContent=$('supplyType').value==='intra'?'Tax split: CGST + SGST':$('supplyType').value==='inter'?'Tax type: IGST':'GST not applied';$('pNotes').textContent=safe($('notes').value)||'Thank you for your business.';
+$('previewRows').innerHTML=c.rows.map((r,i)=>`<tr><td>${i+1}</td><td>${esc(r.name||'Item / service')}<div style="color:#71818c;font-size:9px">${r.rate}% GST</div></td><td style="text-align:right">${r.qty}</td><td style="text-align:right">${money(r.price)}</td><td style="text-align:right">${money(r.taxable)}</td><td style="text-align:right">${money(r.tax)}</td><td style="text-align:right">${money(r.amount)}</td></tr>`).join('')||'<tr><td colspan="7" style="text-align:center;color:#71818c">Add items to build your invoice</td></tr>';
+const lines=[['Taxable subtotal',c.subtotal]];if($('supplyType').value==='intra'){lines.push(['CGST',c.cgst],['SGST',c.sgst])}else if($('supplyType').value==='inter')lines.push(['IGST',c.igst]);lines.push(['Total tax',c.tax]);const rounded=Math.round(c.total);const roundOff=rounded-c.total;lines.push(['Round off',roundOff],['Grand total',rounded]);$('totals').innerHTML=lines.map(([k,v])=>`<div class="total-line ${k==='Grand total'?'grand':''}"><span>${k}</span><strong>${money(v)}</strong></div>`).join('');
+let taxRows={};c.rows.forEach(r=>{if($('supplyType').value==='none'||r.rate===0)return;const k=String(r.rate);taxRows[k]=(taxRows[k]||0)+r.tax});$('taxSummary').innerHTML=Object.keys(taxRows).length?'<b>GST rate summary</b><table><thead><tr><th>Rate</th><th>Taxable value</th><th>GST</th></tr></thead><tbody>'+Object.keys(taxRows).sort((a,b)=>Number(a)-Number(b)).map(rate=>{const taxable=c.rows.filter(r=>String(r.rate)===rate).reduce((s,r)=>s+r.taxable,0);return `<tr><td>${rate}%</td><td>${money(taxable)}</td><td>${money(taxRows[rate])}</td></tr>`}).join('')+'</tbody></table>':''}
+function collectInvoice(){const c=calculations();return {id:currentInvoiceId||'inv-'+Date.now()+'-'+Math.random().toString(36).slice(2,7),number:$('invoiceNumber').value,date:$('invoiceDate').value||today(),businessName:safe($('businessName').value),businessAddress:safe($('businessAddress').value),businessGstin:safe($('businessGstin').value).toUpperCase(),businessPhone:safe($('businessPhone').value),logoData,customerName:safe($('customerName').value),customerAddress:safe($('customerAddress').value),customerGstin:safe($('customerGstin').value).toUpperCase(),placeOfSupply:safe($('placeOfSupply').value),supplyType:$('supplyType').value,notes:safe($('notes').value),items:items.map(({id,...it})=>({...it})),totals:{subtotal:c.subtotal,cgst:c.cgst,sgst:c.sgst,igst:c.igst,tax:c.tax,total:c.total},updatedAt:new Date().toISOString()}}
+function saveInvoice(){if(!safe($('businessName').value)||!safe($('customerName').value)){alert('Please enter your business name and customer name before saving.');return}const inv=collectInvoice();let h=getHistory();const idx=h.findIndex(x=>x.id===inv.id);if(idx>=0)h[idx]=inv;else h.push(inv);try{putHistory(h);currentInvoiceId=inv.id;persistSettings();$('saveStatus').textContent=`Saved ${inv.number} on this device.`;renderHistory();$('invoiceNumber').value=inv.number;renderPreview()}catch(e){alert('Could not save. Your browser storage may be full. Remove a large logo, export your invoices, or free device storage.');}}
+function resetForm(){currentInvoiceId=null;$('invoiceNumber').value=makeInvoiceNumber();$('invoiceDate').value=today();$('customerName').value='';$('customerAddress').value='';$('customerGstin').value='';$('placeOfSupply').value='';$('supplyType').value='intra';$('notes').value='Thank you for your business.';items=[];addItemRow();addItemRow();$('saveStatus').textContent='New invoice ready. Save it to add it to history.';renderPreview()}
+function loadInvoice(inv){currentInvoiceId=inv.id;$('invoiceNumber').value=inv.number||makeInvoiceNumber();$('invoiceDate').value=inv.date||today();$('businessName').value=inv.businessName||'';$('businessAddress').value=inv.businessAddress||'';$('businessGstin').value=inv.businessGstin||'';$('businessPhone').value=inv.businessPhone||'';$('customerName').value=inv.customerName||'';$('customerAddress').value=inv.customerAddress||'';$('customerGstin').value=inv.customerGstin||'';$('placeOfSupply').value=inv.placeOfSupply||'';$('supplyType').value=inv.supplyType||'intra';$('notes').value=inv.notes||'';logoData=inv.logoData||logoData;$('logoPreview').innerHTML=logoData?`<img alt="Logo preview" src="${logoData}">`:'Your logo';$('previewLogo').src=logoData;$('previewLogo').hidden=!logoData;items=(inv.items||[]).map((it,i)=>({...it,id:'loaded-'+i}));if(!items.length)items.push({id:'loaded-0',name:'',qty:1,price:0,gst:18});renderItemEditor();renderPreview();window.scrollTo({top:0,behavior:'smooth'});$('saveStatus').textContent=`Loaded ${inv.number}. Save after editing to update this record.`}
+function renderHistory(){const h=getHistory().sort((a,b)=>(b.updatedAt||'').localeCompare(a.updatedAt||''));const el=$('historyList');if(!h.length){el.innerHTML='<p class="small">No saved invoices yet. Complete an invoice and tap “Save invoice”.</p>';return}el.innerHTML=h.map(inv=>`<div class="history-item"><div class="history-info"><strong>${esc(inv.number||'Invoice')} · ${esc(inv.customerName||'Customer')}</strong><span>${esc(inv.date||'')} · ${money(inv.totals?.total||0)}</span></div><div class="history-actions"><button type="button" class="secondary" data-load="${esc(inv.id)}">Open</button><button type="button" class="danger" data-delete="${esc(inv.id)}">Delete</button></div></div>`).join('')}
+function download(filename,content,type){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+function exportData(){const payload={app:'EasyBill',version:2,exportedAt:new Date().toISOString(),settings:getSettings(),invoices:getHistory()};download('easybill-backup-'+today()+'.json',JSON.stringify(payload,null,2),'application/json')}
+function importData(file){const reader=new FileReader();reader.onload=()=>{try{const data=JSON.parse(reader.result);const incoming=Array.isArray(data)?data:data.invoices;if(!Array.isArray(incoming))throw new Error('Invalid backup');const existing=getHistory();const map=new Map(existing.map(x=>[x.id,x]));incoming.forEach((x,i)=>{if(x&&typeof x==='object'){if(!x.id)x.id='import-'+Date.now()+'-'+i;map.set(x.id,x)}});putHistory(Array.from(map.values()));if(data.settings){localStorage.setItem(SETTINGS_KEY,JSON.stringify(data.settings));applySettings(data.settings)}renderHistory();alert(`Imported ${incoming.length} invoice(s). Existing invoices with matching IDs were updated.`)}catch(e){alert('This file does not look like a valid EasyBill backup. Nothing was imported.')}};reader.readAsText(file)}
+function applySettings(s){$('businessName').value=s.businessName||'';$('businessAddress').value=s.businessAddress||'';$('businessGstin').value=s.businessGstin||'';$('businessPhone').value=s.businessPhone||'';logoData=s.logoData||'';$('logoPreview').innerHTML=logoData?`<img alt="Logo preview" src="${logoData}">`:'Your logo';$('previewLogo').src=logoData;$('previewLogo').hidden=!logoData}
+$('itemRows').addEventListener('input',e=>{const id=e.target.dataset.id,field=e.target.dataset.field;if(!id||!field)return;const it=items.find(x=>x.id===id);if(!it)return;it[field]=field==='name'?e.target.value:num(e.target.value);renderPreview()});
+$('itemRows').addEventListener('click',e=>{const id=e.target.dataset.remove;if(!id)return;items=items.filter(x=>x.id!==id);if(!items.length)addItemRow();else renderItemEditor()});
+$('addItem').addEventListener('click',()=>addItemRow());$('saveInvoice').addEventListener('click',saveInvoice);$('newInvoice').addEventListener('click',()=>{if(confirm('Start a new invoice? Save your current changes first if needed.'))resetForm()});
+$('printInvoice').addEventListener('click',()=>window.print());$('previewPrint').addEventListener('click',()=>window.print());
+$('defaultGst').addEventListener('change',()=>{if($('defaultGst').value!=='custom')$('customGst').value=$('defaultGst').value;renderPreview()});$('customGst').addEventListener('input',renderPreview);
+['businessName','businessAddress','businessGstin','businessPhone','invoiceDate','customerName','customerAddress','customerGstin','placeOfSupply','supplyType','notes'].forEach(id=>$(id).addEventListener('input',()=>{renderPreview();if(['businessName','businessAddress','businessGstin','businessPhone'].includes(id))persistSettings()}));
+$('logoInput').addEventListener('change',e=>{const file=e.target.files?.[0];if(!file)return;if(file.size>1500000){alert('Please choose a logo under 1.5 MB so it can be saved reliably.');e.target.value='';return}const reader=new FileReader();reader.onload=()=>setLogo(reader.result);reader.readAsDataURL(file)});
+$('removeLogo').addEventListener('click',()=>{setLogo('');$('logoInput').value=''});
+$('historyList').addEventListener('click',e=>{const load=e.target.dataset.load,del=e.target.dataset.delete;if(load){const inv=getHistory().find(x=>x.id===load);if(inv)loadInvoice(inv)}if(del){const inv=getHistory().find(x=>x.id===del);if(inv&&confirm(`Delete ${inv.number||'this invoice'} from history?`)){putHistory(getHistory().filter(x=>x.id!==del));if(currentInvoiceId===del)currentInvoiceId=null;renderHistory()}}});
+$('exportBackup').addEventListener('click',exportData);$('exportHistory').addEventListener('click',exportData);$('importBackupBtn').addEventListener('click',()=>$('importBackup').click());$('importBackup').addEventListener('change',e=>{if(e.target.files?.[0])importData(e.target.files[0]);e.target.value=''});
+$('clearHistory').addEventListener('click',()=>{if(confirm('Delete all saved invoices from this browser? Export a backup first if you may need them.')){localStorage.removeItem(STORAGE_KEY);currentInvoiceId=null;renderHistory();$('invoiceNumber').value=makeInvoiceNumber();renderPreview()}});
+try{applySettings(getSettings())}catch(e){}$('invoiceDate').value=today();$('invoiceNumber').value=makeInvoiceNumber();$('notes').value='Thank you for your business.';addItemRow({name:'',qty:1,price:0,gst:18});addItemRow({name:'',qty:1,price:0,gst:18});renderHistory();renderPreview();
+// Ads use Google's official test IDs until the developer supplies their own AdMob IDs.
+async function initEasyBillAds(){
+  const isNative=!!(window.Capacitor&&window.Capacitor.isNativePlatform&&window.Capacitor.isNativePlatform());
+  if(!isNative)return;
+  const plugins=window.Capacitor.Plugins||{};const AdMob=plugins.AdMob;
+  if(!AdMob){$('premiumStatus').textContent='Ad plugin not available. Rebuild after syncing Capacitor plugins.';return;}
+  try{
+    if(AdMob.initialize) await AdMob.initialize({testing:true,initializeForTesting:true});
+    if(AdMob.showBanner) await AdMob.showBanner({adId:'ca-app-pub-3940256099942544/6300978111',adSize:'ADAPTIVE_BANNER',position:'BOTTOM_CENTER',margin:0});
+  }catch(err){console.warn('AdMob test ad could not be loaded:',err);}
+}
+$('premiumInfo').addEventListener('click',()=>{$('premiumStatus').textContent='Premium is not for sale yet. Google Play Billing, product IDs, purchase verification and restore-purchase handling must be configured before charging users.';});
+initEasyBillAds();
+})();
+</script>
+</body>
+</html>

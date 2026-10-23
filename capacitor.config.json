@@ -1,0 +1,12 @@
+{
+  "appId": "com.easybill.app",
+  "appName": "EasyBill",
+  "webDir": "www",
+  "plugins": {
+    "AdMob": {
+      "appId": "ca-app-pub-3940256099942544~3347511713",
+      "testing": true,
+      "initializeForTesting": true
+    }
+  }
+}
